@@ -80,6 +80,8 @@ void ProbAmpa::cur_aos() {
     // all iterations are independent.
 
     #pragma ivdep
+    #pragma vector always
+    #pragma clang loop vectorize(assume_safety)
     for (i = 0; i < _cntml; i++) {
         p = &pdata[i * CHANNEL_LEN];
         int id = index_array[i];
@@ -130,6 +132,8 @@ void ProbAmpa::cur_soa() {
     // all iterations are independent.
 
     #pragma ivdep
+    #pragma vector always
+    #pragma clang loop vectorize(assume_safety)
     for (i = 0; i < _cntml; i++) {
         int id = index_array[i];
         v = VEC_V[id];

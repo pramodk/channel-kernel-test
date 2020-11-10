@@ -34,6 +34,8 @@ void Na::state_aos() {
     double* p;
 
     #pragma ivdep
+    #pragma vector always
+    #pragma clang loop vectorize(assume_safety)
     for (i = 0; i < _cntml; i++) {
         p = &pdata[i * CHANNEL_LEN];
 
@@ -63,6 +65,8 @@ void Na::state_soa() {
     int i;
 
     #pragma ivdep
+    #pragma vector always
+    #pragma clang loop vectorize(assume_safety)
     for (i = 0; i < _cntml; i++) {
         p_8[i] = (0.182 * (p_16[i] - -35.0)) / (1.0 - (exp(-(p_16[i] - -35.0) / 9.0)));
         p_9[i] = (0.124 * (-p_16[i] - 35.0)) / (1.0 - (exp(-(-p_16[i] - 35.0) / 9.0)));
@@ -92,6 +96,8 @@ void Na::cur_aos() {
     double v, dina, rhs;
 
     #pragma ivdep
+    #pragma vector always
+    #pragma clang loop vectorize(assume_safety)
     for (i = 0; i < _cntml; i++) {
         p = &pdata[i * CHANNEL_LEN];
 
@@ -128,6 +134,8 @@ void Na::cur_soa() {
     double rhs, v, dina;
 
     #pragma ivdep
+    #pragma vector always
+    #pragma clang loop vectorize(assume_safety)
     for (i = 0; i < _cntml; i++) {
         int id = index_array[i];
         v = VEC_V[id];
