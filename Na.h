@@ -52,8 +52,8 @@ class Na : public Mechanism {
     }
 
     void compute() {
-#if 0
 	#pragma omp barrier
+#if 0
         t->start();
         state_aos();
 	#pragma omp barrier
@@ -62,7 +62,9 @@ class Na : public Mechanism {
 #endif
 
         t->start();
-        state_soa();
+        for(int i=0; i< 50; i++) {
+            state_soa();
+        }
 	#pragma omp barrier
 	#pragma omp single
         t->stop("Na State SoA");
@@ -76,7 +78,9 @@ class Na : public Mechanism {
 #endif
 
         t->start();
-        cur_soa();
+        for(int i=0; i< 10; i++) {
+            cur_soa();
+        }
 	#pragma omp barrier
 	#pragma omp single
         t->stop("Na Current SoA");
