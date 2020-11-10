@@ -1,4 +1,4 @@
-#pragma
+#pragma once
 
 #include "Mechanism.h"
 #include "TimeUtils.h"

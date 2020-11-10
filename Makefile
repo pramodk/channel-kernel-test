@@ -18,7 +18,7 @@ endif
 
 ifdef INTEL
 CXX=icc
-CFLAGS += -O2  -qopt-report=5 -qopenmp -xHost
+CFLAGS = -O2  -qopt-report=5 -qopenmp -xHost
 endif
 
 DEPS = Na.h ProbAmpa.h TimeUtils.h Mechanism.h
