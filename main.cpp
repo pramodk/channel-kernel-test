@@ -1,5 +1,9 @@
 #include <iostream>
 
+#ifdef _OPENMP
+#include <omp.h>
+#endif
+
 #include "Na.h"
 #include "ProbAmpa.h"
 
@@ -15,11 +19,24 @@ int main(int argc, char* argv[]) {
 
     std::cout << "\n Channel Instances : " <<  num_instances << std::endl;
 
-    Na channel_a(num_instances);
-    channel_a.compute();
+    #ifdef _OPENMP
+        #pragma omp parallel
+        {
+            #pragma omp master
+            {
+                printf (" Number of Threads requested = %i\n", omp_get_num_threads());
+            }
+        }
+    #endif
 
-    ProbAmpa channel_b(num_instances);
-    channel_b.compute();
+    #pragma omp parallel
+    {
+        Na channel_a(num_instances);
+        channel_a.compute();
+
+        ProbAmpa channel_b(num_instances);
+        channel_b.compute();
+    }
 
     std::cout << std::endl;
 }

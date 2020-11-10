@@ -1,7 +1,11 @@
 CXX=g++
+CFLAGS=-O2
 
-CFLAGS += "-O2"
-LDFLAGS += ""
+ifdef CRAY
+CXX=CC
+CFLAGS += -O2  -h msgs
+CFLAGS = -h report=v -homp
+endif
 
 DEPS = Na.h ProbAmpa.h TimeUtils.h Mechanism.h
 OBJ =  Mechanism.o Na.o ProbAmpa.o main.o
@@ -10,7 +14,7 @@ OBJ =  Mechanism.o Na.o ProbAmpa.o main.o
 	$(CXX) -c -o $@ $< $(CFLAGS)
 
 main: $(OBJ)
-	$(CXX) -o $@ $^ $(CFLAGS) $(LDFLAGS) $(EXTRA_FLAGS)
+	$(CXX) -o $@ $^ $(CFLAGS)
 
 .PHONY: clean
 

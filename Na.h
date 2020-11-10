@@ -52,20 +52,29 @@ class Na : public Mechanism {
     }
 
     void compute() {
+	#pragma omp barrier
         t->start();
         state_aos();
+	#pragma omp barrier
+	#pragma omp single
         t->stop("Na State AoS");
 
         t->start();
         state_soa();
+	#pragma omp barrier
+	#pragma omp single
         t->stop("Na State SoA");
 
         t->start();
         cur_aos();
+	#pragma omp barrier
+	#pragma omp single
         t->stop("Na Current AoS");
 
         t->start();
         cur_soa();
+	#pragma omp barrier
+	#pragma omp single
         t->stop("Na Current SoA");
     }
 
