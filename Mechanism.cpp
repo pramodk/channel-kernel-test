@@ -31,9 +31,15 @@ void Mechanism::init_mechanism() {
     seed = time(NULL);
     srand(seed);
 
+    double inc = 0.001;
+
     for (i = 0; i < num_instances; i++) {
         for (j = 0; j < CHANNEL_LEN; j++) {
-            r = (rand() % MAX_RANDOM) + 10.1;
+            r = inc;
+            inc += 0.000001;
+            //r = (rand() % MAX_RANDOM) + 10.1;
+
+            // will be random
             if (enable_aos)
                 pdata_aos[i * CHANNEL_LEN + j] = r;
             if (enable_soa)
