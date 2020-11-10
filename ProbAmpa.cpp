@@ -47,6 +47,7 @@ void ProbAmpa::init_mechanism() {
     p_38 = (double*) (pdata_soa + 38 * num_instances);
 }
 
+#if 0
 inline double ProbAmpa::current_aos(double* __restrict__ p, double v) {
     double pval;
     double gmax_ProbAMPANMDA_EMS = 0.234;
@@ -98,7 +99,7 @@ void ProbAmpa::cur_aos() {
         VEC_RHS[id] -= rhs;
     }
 }
-
+#endif
 
 inline double ProbAmpa::current_soa(int i, double v) {
     double pval;

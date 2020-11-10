@@ -1,4 +1,5 @@
 #include <iostream>
+#include <string.h>
 
 #ifdef _OPENMP
 #include <omp.h>
@@ -17,24 +18,31 @@ int main(int argc, char* argv[]) {
         num_instances = atoi(argv[1]);
     }
 
-    std::cout << "\n Channel Instances : " <<  num_instances << std::endl;
+    int num_threads = 1;
 
     #ifdef _OPENMP
         #pragma omp parallel
         {
             #pragma omp master
             {
-                printf (" Number of Threads requested = %i\n", omp_get_num_threads());
+                num_threads = omp_get_num_threads();
             }
         }
     #endif
 
+    std::cout << "\n Channel Instances : " <<  num_instances << " using threads " << num_threads << std::endl;
+
     #pragma omp parallel
     {
         Na channel_a(num_instances);
-        channel_a.compute();
-
         ProbAmpa channel_b(num_instances);
+
+        #pragma omp barrier
+
+        #pragma omp single
+        std::cout << "===== INITIALIZATION DONE ====\n";
+
+        channel_a.compute();
         channel_b.compute();
     }
 

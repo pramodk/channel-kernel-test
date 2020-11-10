@@ -26,6 +26,7 @@ void Na::init_mechanism() {
     p_17 = (double*) (pdata_soa + 17 * num_instances);
 }
 
+#if 0
 /* nrn_state kernel in AOS format */
 void Na::state_aos() {
     int _cntml = num_instances;
@@ -55,35 +56,6 @@ void Na::state_aos() {
 
         p[4] = p[4] + (1. - exp(0.01 * ((((-1.0))) / p[11]))) *
                           (-(((p[10])) / p[11]) / ((((-1.0))) / p[11]) - p[4]);
-    }
-}
-
-
-/* nrn_state kernel in SOA formatg */
-void Na::state_soa() {
-    int _cntml = num_instances;
-    int i;
-
-    #pragma ivdep
-    #pragma vector always
-    #pragma clang loop vectorize(assume_safety)
-    for (i = 0; i < _cntml; i++) {
-        p_8[i] = (0.182 * (p_16[i] - -35.0)) / (1.0 - (exp(-(p_16[i] - -35.0) / 9.0)));
-        p_9[i] = (0.124 * (-p_16[i] - 35.0)) / (1.0 - (exp(-(-p_16[i] - 35.0) / 9.0)));
-
-        p_6[i] = p_8[i] / (p_8[i] + p_9[i]);
-        p_7[i] = 1.0 / (p_8[i] + p_9[i]);
-
-        p_3[i] = p_3[i] + (1. - exp(0.01 * ((((-1.0))) / p_7[i]))) *
-                              (-(((p_6[i])) / p_7[i]) / ((((-1.0))) / p_7[i]) - p_3[i]);
-        p_12[i] = (0.024 * (p_16[i] - -50.0)) / (1.0 - (exp(-(p_16[i] - -50.0) / 5.0)));
-
-        p_13[i] = (0.0091 * (-p_16[i] - 75.0)) / (1.0 - (exp(-(-p_16[i] - 75.0) / 5.0)));
-        p_10[i] = 1.0 / (1.0 + exp((p_16[i] - -65.0) / 6.2));
-        p_11[i] = 1.0 / (p_12[i] + p_13[i]);
-
-        p_4[i] = p_4[i] + (1. - exp(0.01 * ((((-1.0))) / p_11[i]))) *
-                              (-(((p_10[i])) / p_11[i]) / ((((-1.0))) / p_11[i]) - p_4[i]);
     }
 }
 
@@ -127,6 +99,36 @@ void Na::cur_aos() {
         VEC_RHS[id] -= rhs;
     }
 }
+#endif
+
+/* nrn_state kernel in SOA formatg */
+void Na::state_soa() {
+    int _cntml = num_instances;
+    int i;
+
+    #pragma ivdep
+    #pragma vector always
+    #pragma clang loop vectorize(assume_safety)
+    for (i = 0; i < _cntml; i++) {
+        p_8[i] = (0.182 * (p_16[i] - -35.0)) / (1.0 - (exp(-(p_16[i] - -35.0) / 9.0)));
+        p_9[i] = (0.124 * (-p_16[i] - 35.0)) / (1.0 - (exp(-(-p_16[i] - 35.0) / 9.0)));
+
+        p_6[i] = p_8[i] / (p_8[i] + p_9[i]);
+        p_7[i] = 1.0 / (p_8[i] + p_9[i]);
+
+        p_3[i] = p_3[i] + (1. - exp(0.01 * ((((-1.0))) / p_7[i]))) *
+                              (-(((p_6[i])) / p_7[i]) / ((((-1.0))) / p_7[i]) - p_3[i]);
+        p_12[i] = (0.024 * (p_16[i] - -50.0)) / (1.0 - (exp(-(p_16[i] - -50.0) / 5.0)));
+
+        p_13[i] = (0.0091 * (-p_16[i] - 75.0)) / (1.0 - (exp(-(-p_16[i] - 75.0) / 5.0)));
+        p_10[i] = 1.0 / (1.0 + exp((p_16[i] - -65.0) / 6.2));
+        p_11[i] = 1.0 / (p_12[i] + p_13[i]);
+
+        p_4[i] = p_4[i] + (1. - exp(0.01 * ((((-1.0))) / p_11[i]))) *
+                              (-(((p_10[i])) / p_11[i]) / ((((-1.0))) / p_11[i]) - p_4[i]);
+    }
+}
+
 
 void Na::cur_soa() {
     int _cntml = num_instances;

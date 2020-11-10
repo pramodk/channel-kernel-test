@@ -78,17 +78,19 @@ class ProbAmpa : public Mechanism {
     }
 
     void compute() {
-	#pragma omp barrier
+#if 0
+	    #pragma omp barrier
         t->start();
         cur_aos();
-	#pragma omp barrier
+	    #pragma omp barrier
         #pragma omp single
         t->stop("ProbAmpa Cur AoS");
+#endif
 
-	#pragma omp barrier
+	    #pragma omp barrier
         t->start();
         cur_soa();
-	#pragma omp barrier
+	    #pragma omp barrier
         #pragma omp single
         t->stop("ProbAmpa Cur SoA");
     }
