@@ -4,7 +4,7 @@
 make clean && make
 ./main
 
-// OR, pass number of channels as first argument
+// OR, pass total number of channels as first argument
 
 ./main 1000000
 ````

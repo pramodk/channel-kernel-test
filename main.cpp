@@ -7,9 +7,11 @@
 
 #include "Na.h"
 #include "ProbAmpa.h"
+#include "TimemUtils.h"
 
 int main(int argc, char* argv[]) {
     int num_instances = 5000000;
+    TimemUtils t;
 
     if (argc < 2) {
         std::cout << "Pass number of mechanisms as an argument,";
@@ -34,13 +36,16 @@ int main(int argc, char* argv[]) {
 
     #pragma omp parallel
     {
-        Na channel_a(num_instances);
-        ProbAmpa channel_b(num_instances);
+        Na channel_a(num_instances/num_threads);
+        ProbAmpa channel_b(num_instances/num_threads);
 
         #pragma omp barrier
 
         #pragma omp single
-        std::cout << "===== INITIALIZATION DONE ====\n";
+        {
+            std::cout << "===== INITIALIZATION DONE ====\n";
+            std::cout << "Total memory usage: " << t.mem_report() << " MB" << std::endl;
+        }
 
         channel_a.compute();
         channel_b.compute();

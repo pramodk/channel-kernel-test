@@ -21,7 +21,7 @@ CXX=icc
 CFLAGS = -O2  -qopt-report=5 -qopenmp -xHost
 endif
 
-DEPS = Na.h ProbAmpa.h TimeUtils.h Mechanism.h
+DEPS = Na.h ProbAmpa.h TimemUtils.h Mechanism.h
 OBJ =  Mechanism.o Na.o ProbAmpa.o main.o
 
 %.o: %.cpp $(DEPS)

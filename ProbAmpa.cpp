@@ -3,7 +3,6 @@
 #include <stdlib.h>
 
 #include "ProbAmpa.h"
-#include "TimeUtils.h"
 
 void ProbAmpa::init_mechanism() {
     p_0 = (double*) (pdata_soa + 0 * num_instances);
