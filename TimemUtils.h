@@ -1,10 +1,13 @@
 #pragma once
 
+#include <fstream>
+#include <malloc.h>
+#include <unistd.h>
 #include <stdio.h>
 #include <sys/time.h>
 #include <time.h>
 
-class TimeUtils {
+class TimemUtils {
     struct timeval tvBegin;
     struct timeval tvEnd;
 
@@ -31,5 +34,20 @@ class TimeUtils {
 
         // should we re-initialzie?
         tvBegin = (struct timeval){0};
+    }
+
+    double mem_report() {
+        double usageMB = 0;
+        std::ifstream file("/proc/self/statm");
+        if (file.is_open()) {
+            unsigned long long int data_size;
+            file >> data_size >> data_size;
+            file.close();
+            usageMB = (data_size * sysconf(_SC_PAGESIZE)) / (1024.0 * 1024.0);
+        } else {
+            struct mallinfo m = mallinfo();
+            usageMB = (m.hblkhd + m.uordblks) / (1024.0 * 1024.0);
+        }
+        return usageMB;
     }
 };

@@ -1,6 +1,6 @@
 
 #include "Mechanism.h"
-#include "TimeUtils.h"
+#include "TimemUtils.h"
 
 class Na : public Mechanism {
     /* note: if you don't use -qalias compiler option,
@@ -26,12 +26,12 @@ class Na : public Mechanism {
 
     void init_mechanism();
 
-    TimeUtils* t;
+    TimemUtils* t;
 
   public:
-    Na(int n, bool aos = true, bool soa = true)
+    Na(int n, bool aos = false, bool soa = true)
         : Mechanism(n, aos, soa, 18) {
-        t = new TimeUtils();
+        t = new TimemUtils();
         init_mechanism();
     }
 

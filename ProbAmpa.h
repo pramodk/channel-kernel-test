@@ -1,7 +1,7 @@
 #pragma once
 
 #include "Mechanism.h"
-#include "TimeUtils.h"
+#include "TimemUtils.h"
 
 class ProbAmpa : public Mechanism {
     /* note: if you don't use -qalias compiler option,
@@ -52,12 +52,12 @@ class ProbAmpa : public Mechanism {
     double current_soa(int i, double v);
     double current_xsoa(double* p, double v, int i, int _cntml);
 
-    TimeUtils* t;
+    TimemUtils* t;
 
   public:
-    ProbAmpa(int n, bool aos = true, bool soa = true)
+    ProbAmpa(int n, bool aos = false, bool soa = true)
         : Mechanism(n, aos, soa, 39) {
-        t = new TimeUtils();
+        t = new TimemUtils();
         init_mechanism();
     }
 
