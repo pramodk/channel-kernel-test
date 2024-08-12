@@ -8,7 +8,3 @@ make clean && make
 
 ./main 1000000
 ````
-
-## NOTE
-
-For internal test purpose only (do not distribute without prior permission from Blue Brain Project contact person).
